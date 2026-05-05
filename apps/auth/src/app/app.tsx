@@ -1,5 +1,7 @@
+import { LoginPage } from '../routes/login';
+
 export function App() {
-  return null;
+  return <LoginPage />;
 }
 
 export default App;

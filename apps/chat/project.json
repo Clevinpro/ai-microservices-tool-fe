@@ -16,10 +16,7 @@
     "serve": {
       "options": {
         "port": 3002
-      },
-      "dependsOn": [
-        "shell:serve"
-      ]
+      }
     }
   }
 }

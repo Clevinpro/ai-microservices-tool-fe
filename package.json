@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "dev": "nx run-many --target=serve --projects=auth,shell --parallel=2",
     "prepare": "husky",
     "lint": "nx run-many --target=lint",
     "lint:fix": "nx run-many --target=lint --fix",

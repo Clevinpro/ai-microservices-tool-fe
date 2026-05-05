@@ -1,7 +1,13 @@
 import axios from 'axios';
 
 function getBaseURL(): string {
-  return import.meta.env.VITE_API_URL ?? 'http://localhost:3333';
+  const env = (
+    import.meta as ImportMeta & {
+      env?: { API_URL?: string };
+    }
+  ).env;
+
+  return env?.API_URL ?? 'http://localhost:4000';
 }
 
 export const apiClient = axios.create({

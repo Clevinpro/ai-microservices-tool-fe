@@ -1,19 +1,29 @@
 import * as React from 'react';
-import { Outlet, createRootRoute, createRoute, createRouter } from '@tanstack/react-router';
+import {
+  Navigate,
+  Outlet,
+  createRootRoute,
+  createRoute,
+  createRouter,
+} from '@tanstack/react-router';
 import { UiRoot } from '@libs/ui';
 
-const Auth = React.lazy(() => import('auth/Module'));
-const Chat = React.lazy(() => import('chat/Module'));
-const Docs = React.lazy(() => import('docs/Module'));
+const AuthLogin = React.lazy(() => import('auth/Module'));
+const AuthRegister = React.lazy(() =>
+  import('auth/Module').then((m) => ({ default: m.RegisterPage })),
+);
+function ComingSoon() {
+  return <div>Coming soon...</div>;
+}
 
 function ShellHome() {
-  return null;
+  return <Navigate to="/auth" />;
 }
 
 const rootRoute = createRootRoute({
   component: () => (
     <UiRoot>
-      <React.Suspense fallback={null}>
+      <React.Suspense fallback={<div>Loading...</div>}>
         <Outlet />
       </React.Suspense>
     </UiRoot>
@@ -29,21 +39,33 @@ const indexRoute = createRoute({
 const authRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/auth',
-  component: Auth,
+  component: AuthLogin,
+});
+
+const authRegisterRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/auth/register',
+  component: AuthRegister,
 });
 
 const chatRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/chat',
-  component: Chat,
+  component: ComingSoon,
 });
 
 const docsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/docs',
-  component: Docs,
+  component: ComingSoon,
 });
 
-const routeTree = rootRoute.addChildren([indexRoute, authRoute, chatRoute, docsRoute]);
+const routeTree = rootRoute.addChildren([
+  indexRoute,
+  authRoute,
+  authRegisterRoute,
+  chatRoute,
+  docsRoute,
+]);
 
 export const router = createRouter({ routeTree });

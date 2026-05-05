@@ -3,6 +3,6 @@ import { App } from './app/app';
 
 describe('auth', () => {
   it('placeholder', () => {
-    expect(App()).toBeNull();
+    expect(App()).not.toBeNull();
   });
 });

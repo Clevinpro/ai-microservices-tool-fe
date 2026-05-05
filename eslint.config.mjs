@@ -52,5 +52,20 @@ export default [
         ],
         // Override or add rules here
         rules: {}
+    },
+    {
+        files: [
+            "**/*.spec.ts",
+            "**/*.spec.tsx",
+            "**/*.spec.js",
+            "**/*.spec.jsx",
+            "**/*.test.ts",
+            "**/*.test.tsx",
+            "**/*.test.js",
+            "**/*.test.jsx"
+        ],
+        rules: {
+            "@typescript-eslint/no-empty-function": "off"
+        }
     }
 ];
