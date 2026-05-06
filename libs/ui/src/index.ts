@@ -7,3 +7,7 @@ export { ChatMessage } from './components/ChatMessage/ChatMessage';
 export type { ChatMessageProps } from './components/ChatMessage/ChatMessage';
 export { DocumentList } from './components/DocumentList/DocumentList';
 export type { DocumentListProps, DocumentListItem } from './components/DocumentList/DocumentList';
+export { LoginForm } from './components/LoginForm/LoginForm';
+export type { LoginFormProps, LoginFormValues } from './components/LoginForm/LoginForm';
+export { RegisterForm } from './components/RegisterForm/RegisterForm';
+export type { RegisterFormProps, RegisterFormValues } from './components/RegisterForm/RegisterForm';

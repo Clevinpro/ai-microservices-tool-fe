@@ -5,6 +5,7 @@ import { Button, Card, Input, Typography, message } from 'antd';
 import { z } from 'zod';
 
 import { register } from '@libs/api';
+import GuestRoute from '../components/GuestRoute';
 
 const registerSchema = z
   .object({
@@ -34,7 +35,7 @@ function getErrorMessage(error: unknown): string {
   return 'Не вдалося створити акаунт';
 }
 
-export function RegisterPage() {
+function RegisterForm() {
   const navigate = useNavigate();
   const loginPath = window.location.pathname.startsWith('/auth/') ? '/auth' : '/login';
 
@@ -185,3 +186,13 @@ export function RegisterPage() {
     </div>
   );
 }
+
+export function RegisterPage() {
+  return (
+    <GuestRoute>
+      <RegisterForm />
+    </GuestRoute>
+  );
+}
+
+export default RegisterPage;

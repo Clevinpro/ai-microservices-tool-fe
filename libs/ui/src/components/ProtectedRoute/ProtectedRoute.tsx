@@ -1,22 +1,45 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { getMe } from '@libs/api';
+import { queryKeys } from '@libs/store';
+import { useQuery } from '@tanstack/react-query';
+import { Spin } from 'antd';
 import type { ReactNode } from 'react';
+import { useEffect } from 'react';
 
 export interface ProtectedRouteProps {
-  isAuthenticated: boolean;
   children: ReactNode;
-  /** Redirect target when not authenticated */
-  loginPath?: string;
 }
 
-export function ProtectedRoute({
-  isAuthenticated,
-  children,
-  loginPath = '/login',
-}: ProtectedRouteProps) {
-  const location = useLocation();
-  // TODO: token refresh, roles, optional outlet pattern
-  if (!isAuthenticated) {
-    return <Navigate to={loginPath} state={{ from: location }} replace />;
+export function ProtectedRoute({ children }: ProtectedRouteProps) {
+  const { isLoading, isError, isSuccess } = useQuery({
+    queryKey: queryKeys.auth.user,
+    queryFn: getMe,
+    retry: false,
+  });
+
+  useEffect(() => {
+    if (isError) {
+      window.location.href = 'http://localhost:3001/login';
+    }
+  }, [isError]);
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
   }
-  return children;
+
+  if (isSuccess) {
+    return children;
+  }
+
+  return null;
 }

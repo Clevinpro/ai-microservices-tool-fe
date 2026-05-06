@@ -7,5 +7,9 @@ export default mergeConfig(
   rootConfig as UserConfig,
   defineConfig({
     root: path.dirname(fileURLToPath(import.meta.url)),
+    test: {
+      silent: false,
+      reporters: ['default'],
+    },
   }),
 );

@@ -8,6 +8,8 @@ export default mergeConfig(
   defineConfig({
     root: path.dirname(fileURLToPath(import.meta.url)),
     test: {
+      silent: false,
+      reporters: ['default'],
       include: ['src/**/*.{spec,test}.{ts,tsx}'],
     },
   }),

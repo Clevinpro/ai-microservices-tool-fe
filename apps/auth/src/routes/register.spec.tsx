@@ -7,10 +7,12 @@ import { RegisterPage } from './register';
 
 const navigateMock = vi.fn();
 const registerMock = vi.fn();
+const getMeMock = vi.fn();
 const messageErrorMock = vi.spyOn(message, 'error').mockImplementation(() => undefined);
 
 vi.mock('@libs/api', () => ({
   register: (dto: unknown) => registerMock(dto),
+  getMe: () => getMeMock(),
 }));
 
 vi.mock('@tanstack/react-router', () => ({
@@ -50,6 +52,8 @@ describe('RegisterPage', () => {
     });
     window.history.pushState({}, '', '/auth/register');
     registerMock.mockReset();
+    getMeMock.mockReset();
+    getMeMock.mockRejectedValue(new Error('Unauthorized'));
     navigateMock.mockReset();
     messageErrorMock.mockClear();
   });
@@ -63,7 +67,7 @@ describe('RegisterPage', () => {
 
     renderRegisterPage();
 
-    fireEvent.change(screen.getByPlaceholderText("Ім'я"), { target: { value: 'John Doe' } });
+    fireEvent.change(await screen.findByPlaceholderText("Ім'я"), { target: { value: 'John Doe' } });
     fireEvent.change(screen.getByPlaceholderText('Email'), {
       target: { value: 'john@example.com' },
     });
@@ -91,7 +95,7 @@ describe('RegisterPage', () => {
 
     renderRegisterPage();
 
-    fireEvent.change(screen.getByPlaceholderText("Ім'я"), { target: { value: 'John Doe' } });
+    fireEvent.change(await screen.findByPlaceholderText("Ім'я"), { target: { value: 'John Doe' } });
     fireEvent.change(screen.getByPlaceholderText('Email'), {
       target: { value: 'john@example.com' },
     });

@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+const UNAUTHORIZED_REDIRECT_PATH = '/auth';
+
 function getBaseURL(): string {
   const env = (
     import.meta as ImportMeta & {
@@ -27,7 +29,9 @@ apiClient.interceptors.response.use(
   (error) => {
     const status = error?.response?.status;
     if (status === 401 && typeof window !== 'undefined') {
-      window.location.assign('/login');
+      if (window.location.pathname !== UNAUTHORIZED_REDIRECT_PATH) {
+        window.location.assign(UNAUTHORIZED_REDIRECT_PATH);
+      }
     }
     return Promise.reject(error);
   },

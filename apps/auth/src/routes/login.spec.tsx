@@ -7,10 +7,12 @@ import { LoginPage } from './login';
 
 const navigateMock = vi.fn();
 const loginMock = vi.fn();
+const getMeMock = vi.fn();
 const messageErrorMock = vi.spyOn(message, 'error').mockImplementation(() => undefined);
 
 vi.mock('@libs/api', () => ({
   login: (dto: unknown) => loginMock(dto),
+  getMe: () => getMeMock(),
 }));
 
 vi.mock('@tanstack/react-router', () => ({
@@ -49,6 +51,8 @@ describe('LoginPage', () => {
       })),
     });
     loginMock.mockReset();
+    getMeMock.mockReset();
+    getMeMock.mockRejectedValue(new Error('Unauthorized'));
     navigateMock.mockReset();
     messageErrorMock.mockClear();
   });
@@ -62,7 +66,7 @@ describe('LoginPage', () => {
 
     renderLoginPage();
 
-    fireEvent.change(screen.getByPlaceholderText('you@example.com'), {
+    fireEvent.change(await screen.findByPlaceholderText('you@example.com'), {
       target: { value: 'john@example.com' },
     });
     fireEvent.change(screen.getByPlaceholderText('********'), {
@@ -85,7 +89,7 @@ describe('LoginPage', () => {
 
     renderLoginPage();
 
-    fireEvent.change(screen.getByPlaceholderText('you@example.com'), {
+    fireEvent.change(await screen.findByPlaceholderText('you@example.com'), {
       target: { value: 'john@example.com' },
     });
     fireEvent.change(screen.getByPlaceholderText('********'), {

@@ -1,5 +1,5 @@
 import { apiClient } from '../client';
-import type { IAuthResponse, ILoginDto, IRegisterDto } from '../types/auth.types';
+import type { IAuthResponse, ILoginDto, IRegisterDto, IUser } from '../types/auth.types';
 
 const AUTH_PREFIX = '/api/auth';
 
@@ -19,4 +19,9 @@ export async function logout(): Promise<void> {
 
 export async function refresh(): Promise<void> {
   await apiClient.post(`${AUTH_PREFIX}/refresh`);
+}
+
+export async function getMe(): Promise<IUser> {
+  const res = await apiClient.get<IUser>(`${AUTH_PREFIX}/me`);
+  return res.data;
 }

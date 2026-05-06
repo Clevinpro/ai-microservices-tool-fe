@@ -4,6 +4,7 @@ import { useMutation } from '@tanstack/react-query';
 import { Link, useNavigate } from '@tanstack/react-router';
 import { Button, Card, Form, Input, message } from 'antd';
 import { z } from 'zod';
+import GuestRoute from '../components/GuestRoute';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -12,7 +13,7 @@ const loginSchema = z.object({
 
 type LoginValues = z.infer<typeof loginSchema>;
 
-export function LoginPage() {
+function LoginForm() {
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
@@ -121,3 +122,13 @@ export function LoginPage() {
     </div>
   );
 }
+
+export function LoginPage() {
+  return (
+    <GuestRoute>
+      <LoginForm />
+    </GuestRoute>
+  );
+}
+
+export default LoginPage;
