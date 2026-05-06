@@ -1,0 +1,10 @@
+{
+  "latestErrorEvent": {
+    "code": "TYPE-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/tarasbannyi/TestAI/ai-agent-microservices/ai-platform-fe/apps/auth/node_modules/.federation/tsconfig.f7c6f22ebeae95224685d5716606b799.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "args": {
+      "cmd": "npx tsc --project /Users/tarasbannyi/TestAI/ai-agent-microservices/ai-platform-fe/apps/auth/node_modules/.federation/tsconfig.f7c6f22ebeae95224685d5716606b799.json"
+    },
+    "timestamp": 1777996418811
+  }
+}

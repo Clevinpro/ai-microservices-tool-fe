@@ -34,7 +34,11 @@ export function LoginPage() {
       onSubmit: loginSchema,
     },
     onSubmit: async ({ value }) => {
-      await loginMutation.mutateAsync(value);
+      try {
+        await loginMutation.mutateAsync(value);
+      } catch {
+        // Error is already handled in mutation onError callback.
+      }
     },
   });
 
