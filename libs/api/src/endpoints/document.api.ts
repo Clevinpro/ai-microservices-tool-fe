@@ -5,11 +5,11 @@ export async function uploadDocument(file: File, title: string): Promise<IUpload
   const formData = new FormData();
   formData.append('file', file);
   formData.append('title', title);
-  const { data } = await apiClient.post<IUploadResponse>('/api/documents/upload', formData);
+  const { data } = await apiClient.post<IUploadResponse>('/documents/upload', formData);
   return data;
 }
 
 export async function getDocuments(): Promise<IDocument[]> {
-  const { data } = await apiClient.get<IDocument[]>('/api/documents');
+  const { data } = await apiClient.get<IDocument[]>('/documents');
   return data;
 }

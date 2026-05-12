@@ -1,7 +1,8 @@
 import { apiClient } from '../client';
 import type { IAuthResponse, ILoginDto, IRegisterDto, IUser } from '../types/auth.types';
 
-const AUTH_PREFIX = '/api/auth';
+/** Paths are relative to `API_URL`, which includes the global `/api` prefix. */
+const AUTH_PREFIX = '/auth';
 
 export async function login(dto: ILoginDto): Promise<IAuthResponse> {
   const res = await apiClient.post(`${AUTH_PREFIX}/login`, dto);

@@ -1,10 +1,10 @@
 import { apiClient, getApiBaseURL } from '../client';
 import type { IChatRequest, IChatResponse } from '../types/chat.types';
 
-const CHAT_STREAM_PATH = '/api/ai/chat/stream';
+const CHAT_STREAM_PATH = '/ai/chat/stream';
 
 export async function sendMessage(dto: IChatRequest): Promise<IChatResponse> {
-  const { data } = await apiClient.post<IChatResponse>('/api/ai/chat', dto);
+  const { data } = await apiClient.post<IChatResponse>('/ai/chat', dto);
   return data;
 }
 

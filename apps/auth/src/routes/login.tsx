@@ -1,45 +1,26 @@
-import { login } from '@libs/api';
-import { useForm } from '@tanstack/react-form';
+import { getGoogleOAuthStartURL, login } from '@libs/api';
+import { LoginForm } from '@libs/ui';
 import { useMutation } from '@tanstack/react-query';
 import { Link, useNavigate } from '@tanstack/react-router';
-import { Button, Card, Form, Input, message } from 'antd';
-import { z } from 'zod';
+import { Button, Card, message } from 'antd';
+import { useState } from 'react';
+
 import GuestRoute from '../components/GuestRoute';
 
-const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8),
-});
+const LOGIN_FAILED = 'Could not sign in. Check your email and password.';
 
-type LoginValues = z.infer<typeof loginSchema>;
-
-function LoginForm() {
+function LoginScreen() {
   const navigate = useNavigate();
+  const [formError, setFormError] = useState<string>();
 
   const loginMutation = useMutation({
-    mutationFn: (dto: LoginValues) => login(dto),
+    mutationFn: login,
     onSuccess: () => {
       void navigate({ to: '/chat' });
     },
     onError: () => {
-      message.error('Не вдалося увійти. Перевірте email і пароль.');
-    },
-  });
-
-  const form = useForm({
-    defaultValues: {
-      email: '',
-      password: '',
-    } as LoginValues,
-    validators: {
-      onSubmit: loginSchema,
-    },
-    onSubmit: async ({ value }) => {
-      try {
-        await loginMutation.mutateAsync(value);
-      } catch {
-        // Error is already handled in mutation onError callback.
-      }
+      setFormError(LOGIN_FAILED);
+      message.error(LOGIN_FAILED);
     },
   });
 
@@ -54,69 +35,26 @@ function LoginForm() {
       }}
     >
       <Card title="AI Platform" style={{ width: '100%', maxWidth: 420 }}>
-        <Form
-          layout="vertical"
-          onFinish={() => {
-            void form.handleSubmit();
+        <LoginForm
+          loading={loginMutation.isPending}
+          error={formError}
+          onSubmit={(values) => {
+            setFormError(undefined);
+            loginMutation.mutate(values);
           }}
-        >
-          <form.Field
-            name="email"
-            children={(field) => (
-              <Form.Item
-                label="Email"
-                validateStatus={field.state.meta.errors.length ? 'error' : undefined}
-                help={field.state.meta.errors[0]?.message}
-              >
-                <Input
-                  type="email"
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(event) => field.handleChange(event.target.value)}
-                  placeholder="you@example.com"
-                  autoComplete="email"
-                />
-              </Form.Item>
-            )}
-          />
-
-          <form.Field
-            name="password"
-            children={(field) => (
-              <Form.Item
-                label="Пароль"
-                validateStatus={field.state.meta.errors.length ? 'error' : undefined}
-                help={field.state.meta.errors[0]?.message}
-              >
-                <Input.Password
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(event) => field.handleChange(event.target.value)}
-                  placeholder="********"
-                  autoComplete="current-password"
-                />
-              </Form.Item>
-            )}
-          />
-
-          <Form.Item style={{ marginBottom: 8 }}>
-            <Button type="primary" htmlType="submit" loading={loginMutation.isPending} block>
-              Увійти
-            </Button>
-          </Form.Item>
-        </Form>
+        />
 
         <div style={{ textAlign: 'center', marginBottom: 12 }}>
-          <Link to="/auth/register">Немає акаунту? Реєстрація</Link>
+          <Link to="/auth/register">No account? Register</Link>
         </div>
 
         <Button
           block
           onClick={() => {
-            window.location.href = 'http://localhost:4000/auth/google';
+            window.location.href = getGoogleOAuthStartURL();
           }}
         >
-          Увійти через Google
+          Sign in with Google
         </Button>
       </Card>
     </div>
@@ -126,7 +64,7 @@ function LoginForm() {
 export function LoginPage() {
   return (
     <GuestRoute>
-      <LoginForm />
+      <LoginScreen />
     </GuestRoute>
   );
 }

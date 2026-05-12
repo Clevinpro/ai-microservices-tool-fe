@@ -21,7 +21,7 @@ export function LoginForm({ loading = false, error, initialValues, onSubmit }: L
         onSubmit?.(values);
       }}
     >
-      {error ? <Alert style={{ marginBottom: 16 }} type="error" message={error} showIcon /> : null}
+      {error ? <Alert style={{ marginBottom: 16 }} type="error" title={error} showIcon /> : null}
 
       <Form.Item
         label="Email"
@@ -37,7 +37,10 @@ export function LoginForm({ loading = false, error, initialValues, onSubmit }: L
       <Form.Item
         label="Password"
         name="password"
-        rules={[{ required: true, message: 'Please enter your password' }]}
+        rules={[
+          { required: true, message: 'Please enter your password' },
+          { min: 8, message: 'Password must be at least 8 characters' },
+        ]}
       >
         <Input.Password placeholder="Enter password" autoComplete="current-password" />
       </Form.Item>

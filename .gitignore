@@ -5,6 +5,9 @@ dist
 tmp
 out-tsc
 
+# Module Federation generated remote types
+**/@mf-types/
+
 # dependencies
 node_modules
 
@@ -24,6 +27,11 @@ node_modules
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# env (keep `.env.example` committed)
+.env
+.env.local
+.env.*.local
 
 # misc
 /.sass-cache

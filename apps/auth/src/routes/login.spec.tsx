@@ -10,10 +10,14 @@ const loginMock = vi.fn();
 const getMeMock = vi.fn();
 const messageErrorMock = vi.spyOn(message, 'error').mockImplementation(() => undefined);
 
-vi.mock('@libs/api', () => ({
-  login: (dto: unknown) => loginMock(dto),
-  getMe: () => getMeMock(),
-}));
+vi.mock('@libs/api', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@libs/api')>();
+  return {
+    ...actual,
+    login: (dto: unknown) => loginMock(dto),
+    getMe: () => getMeMock(),
+  };
+});
 
 vi.mock('@tanstack/react-router', () => ({
   Link: ({ children }: { children: unknown }) => <a href="/auth/register">{children}</a>,
@@ -69,10 +73,10 @@ describe('LoginPage', () => {
     fireEvent.change(await screen.findByPlaceholderText('you@example.com'), {
       target: { value: 'john@example.com' },
     });
-    fireEvent.change(screen.getByPlaceholderText('********'), {
+    fireEvent.change(screen.getByPlaceholderText('Enter password'), {
       target: { value: 'password123' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Увійти' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
 
     await waitFor(() => {
       expect(loginMock).toHaveBeenCalledWith({
@@ -92,14 +96,19 @@ describe('LoginPage', () => {
     fireEvent.change(await screen.findByPlaceholderText('you@example.com'), {
       target: { value: 'john@example.com' },
     });
-    fireEvent.change(screen.getByPlaceholderText('********'), {
+    fireEvent.change(screen.getByPlaceholderText('Enter password'), {
       target: { value: 'password123' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Увійти' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Sign in' }));
 
     await waitFor(() => {
-      expect(messageErrorMock).toHaveBeenCalledWith('Не вдалося увійти. Перевірте email і пароль.');
+      expect(messageErrorMock).toHaveBeenCalledWith(
+        'Could not sign in. Check your email and password.',
+      );
     });
+    expect(await screen.findByRole('alert')).toHaveTextContent(
+      'Could not sign in. Check your email and password.',
+    );
     expect(navigateMock).not.toHaveBeenCalled();
   });
 });

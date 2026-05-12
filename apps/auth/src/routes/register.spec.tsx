@@ -67,17 +67,19 @@ describe('RegisterPage', () => {
 
     renderRegisterPage();
 
-    fireEvent.change(await screen.findByPlaceholderText("Ім'я"), { target: { value: 'John Doe' } });
-    fireEvent.change(screen.getByPlaceholderText('Email'), {
+    fireEvent.change(await screen.findByPlaceholderText('Your name'), {
+      target: { value: 'John Doe' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('you@example.com'), {
       target: { value: 'john@example.com' },
     });
-    fireEvent.change(screen.getByPlaceholderText('Пароль'), {
+    fireEvent.change(screen.getByPlaceholderText('Create password'), {
       target: { value: 'password123' },
     });
-    fireEvent.change(screen.getByPlaceholderText('Підтвердіть пароль'), {
+    fireEvent.change(screen.getByPlaceholderText('Confirm password'), {
       target: { value: 'password123' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Зареєструватися' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Create account' }));
 
     await waitFor(() => {
       expect(registerMock).toHaveBeenCalledWith({
@@ -91,24 +93,26 @@ describe('RegisterPage', () => {
   });
 
   it('shows api error message when registration fails', async () => {
-    registerMock.mockRejectedValue(new Error('Користувач вже існує'));
+    registerMock.mockRejectedValue(new Error('User already exists'));
 
     renderRegisterPage();
 
-    fireEvent.change(await screen.findByPlaceholderText("Ім'я"), { target: { value: 'John Doe' } });
-    fireEvent.change(screen.getByPlaceholderText('Email'), {
+    fireEvent.change(await screen.findByPlaceholderText('Your name'), {
+      target: { value: 'John Doe' },
+    });
+    fireEvent.change(screen.getByPlaceholderText('you@example.com'), {
       target: { value: 'john@example.com' },
     });
-    fireEvent.change(screen.getByPlaceholderText('Пароль'), {
+    fireEvent.change(screen.getByPlaceholderText('Create password'), {
       target: { value: 'password123' },
     });
-    fireEvent.change(screen.getByPlaceholderText('Підтвердіть пароль'), {
+    fireEvent.change(screen.getByPlaceholderText('Confirm password'), {
       target: { value: 'password123' },
     });
-    fireEvent.click(screen.getByRole('button', { name: 'Зареєструватися' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Create account' }));
 
     await waitFor(() => {
-      expect(messageErrorMock).toHaveBeenCalledWith('Користувач вже існує');
+      expect(messageErrorMock).toHaveBeenCalledWith('User already exists');
     });
     expect(navigateMock).not.toHaveBeenCalled();
   });

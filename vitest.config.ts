@@ -6,6 +6,7 @@ import { defineConfig } from 'vitest/config';
 const workspaceRoot = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
+  envDir: workspaceRoot,
   plugins: [react()],
   resolve: {
     alias: {

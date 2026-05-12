@@ -27,6 +27,7 @@ export const PasswordMismatch: Story = {
   args: {
     error: 'Passwords do not match',
     initialValues: {
+      name: 'Jane Doe',
       email: 'user@example.com',
       password: 'password123',
       confirmPassword: 'password124',

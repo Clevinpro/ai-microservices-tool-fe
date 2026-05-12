@@ -1,6 +1,7 @@
 import { Alert, Button, Form, Input } from 'antd';
 
 export interface RegisterFormValues {
+  name: string;
   email: string;
   password: string;
   confirmPassword: string;
@@ -27,7 +28,18 @@ export function RegisterForm({
         onSubmit?.(values);
       }}
     >
-      {error ? <Alert style={{ marginBottom: 16 }} type="error" message={error} showIcon /> : null}
+      {error ? <Alert style={{ marginBottom: 16 }} type="error" title={error} showIcon /> : null}
+
+      <Form.Item
+        label="Name"
+        name="name"
+        rules={[
+          { required: true, message: 'Please enter your name' },
+          { min: 2, message: 'Name must be at least 2 characters' },
+        ]}
+      >
+        <Input placeholder="Your name" autoComplete="name" />
+      </Form.Item>
 
       <Form.Item
         label="Email"
