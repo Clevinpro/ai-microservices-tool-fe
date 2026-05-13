@@ -12,6 +12,8 @@ const AuthLogin = React.lazy(() => import('auth/Module'));
 const AuthRegister = React.lazy(() =>
   import('auth/Module').then((m) => ({ default: m.RegisterPage })),
 );
+const ChatPage = React.lazy(() => import('chat/Module').then((m) => ({ default: m.ChatPage })));
+
 function ComingSoon() {
   return <div>Coming soon...</div>;
 }
@@ -51,7 +53,7 @@ const authRegisterRoute = createRoute({
 const chatRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/chat',
-  component: ComingSoon,
+  component: ChatPage,
 });
 
 const docsRoute = createRoute({

@@ -7,7 +7,9 @@
   "targets": {
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": ["{workspaceRoot}/coverage/apps/chat"],
+      "outputs": [
+        "{workspaceRoot}/coverage/apps/chat"
+      ],
       "options": {
         "config": "apps/chat/vitest.config.ts",
         "reportsDirectory": "coverage/apps/chat"

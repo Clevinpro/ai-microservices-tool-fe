@@ -1,8 +1,6 @@
-import { Typography } from 'antd';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ChatMessage } from './ChatMessage';
-import type { ChatMessageProps } from './ChatMessage';
 
 const meta: Meta<typeof ChatMessage> = {
   title: 'Shared/ChatMessage',
@@ -20,10 +18,6 @@ const meta: Meta<typeof ChatMessage> = {
       control: 'text',
       description: 'Message text content.',
     },
-    extra: {
-      control: 'text',
-      description: 'Extra actions or metadata row.',
-    },
   },
 };
 
@@ -31,16 +25,29 @@ export default meta;
 
 type Story = StoryObj<typeof ChatMessage>;
 
-export const Primary: Story = {
+export const User: Story = {
+  args: {
+    role: 'user',
+    content: 'Can you summarize this document?',
+    createdAt: '2026-05-13T09:30:00.000Z',
+  },
+};
+
+export const Assistant: Story = {
   args: {
     role: 'assistant',
     content: 'Here is a concise answer from the assistant.',
-    extra: 'Just now',
+    createdAt: '2026-05-13T09:31:00.000Z',
+    responseSeconds: 8,
   },
-  render: ({ extra, ...args }: ChatMessageProps) => (
-    <ChatMessage
-      {...args}
-      extra={extra ? <Typography.Text type="secondary">{extra}</Typography.Text> : undefined}
-    />
-  ),
+};
+
+export const Streaming: Story = {
+  args: {
+    role: 'assistant',
+    content: '',
+    createdAt: '2026-05-13T09:32:00.000Z',
+    status: 'Searching relevant context...',
+    responseSeconds: 14,
+  },
 };

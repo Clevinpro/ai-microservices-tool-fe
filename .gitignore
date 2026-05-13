@@ -7,6 +7,7 @@ out-tsc
 
 # Module Federation generated remote types
 **/@mf-types/
+**/.mf/
 
 # dependencies
 node_modules

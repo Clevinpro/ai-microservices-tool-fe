@@ -1,6 +1,10 @@
 export interface IChatMessage {
-  role: 'user' | 'assistant';
+  id?: string;
+  role: 'user' | 'assistant' | 'system';
   content: string;
+  createdAt?: string;
+  status?: string;
+  responseSeconds?: number;
 }
 
 export interface IChatRequest {
@@ -8,7 +12,16 @@ export interface IChatRequest {
   conversationId?: string;
 }
 
-export interface IChatResponse {
+export interface IChatSendResponse {
+  status: 'processing';
+  conversationId?: string;
+}
+
+export interface IChatStreamEvent {
   userId: string;
-  result: string;
+  conversationId: string;
+  event?: 'status' | 'chunk' | 'complete' | 'error';
+  status?: string;
+  result?: string;
+  error?: string;
 }

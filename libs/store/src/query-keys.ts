@@ -9,4 +9,8 @@ export const queryKeys = {
   chat: {
     history: (id: string) => ['chat', id],
   },
+  conversations: {
+    all: ['conversations'] as const,
+    one: (id: string) => ['conversations', id] as const,
+  },
 };
