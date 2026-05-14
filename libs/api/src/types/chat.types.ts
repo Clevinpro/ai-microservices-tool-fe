@@ -21,7 +21,8 @@ export interface IChatStreamEvent {
   userId: string;
   conversationId: string;
   event?: 'status' | 'chunk' | 'complete' | 'error';
-  status?: string;
+  stage?: string;
+  message?: string;
   result?: string;
   error?: string;
 }

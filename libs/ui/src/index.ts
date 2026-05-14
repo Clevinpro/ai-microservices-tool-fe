@@ -1,4 +1,5 @@
 export { UiRoot } from './UiRoot';
+export { useTypewriter } from './hooks/useTypewriter';
 export { AppLayout } from './components/Layout/AppLayout';
 export type { AppLayoutProps } from './components/Layout/AppLayout';
 export { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute';

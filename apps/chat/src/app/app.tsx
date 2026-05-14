@@ -100,13 +100,13 @@ export function App() {
         try {
           const data = JSON.parse(event.data) as IChatStreamEvent;
 
-          if (data.event === 'status' && data.status) {
+          if (data.event === 'status' && data.message) {
             setMessages((prev) =>
               prev.map((message, index) =>
                 index === prev.length - 1 &&
                 message.role === 'assistant' &&
                 message.content.trim().length === 0
-                  ? { ...message, status: data.status }
+                  ? { ...message, status: data.message }
                   : message,
               ),
             );

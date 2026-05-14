@@ -1,4 +1,5 @@
 export * from './client';
+export * from './utils/pendingStream';
 export * from './types/auth.types';
 export * from './types/chat.types';
 export * from './types/conversation.types';

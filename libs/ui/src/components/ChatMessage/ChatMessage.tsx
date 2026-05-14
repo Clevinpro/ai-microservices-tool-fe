@@ -1,4 +1,5 @@
 import { Flex, Typography } from 'antd';
+import { useTypewriter } from '../../hooks/useTypewriter';
 
 const { Paragraph } = Typography;
 
@@ -85,7 +86,8 @@ export function ChatMessage({
 }: ChatMessageProps) {
   const messageTime = formatMessageTime(createdAt);
   const isThinking = role === 'assistant' && content.trim().length === 0;
-  const thinkingText = status ?? 'Model is thinking...';
+  const rawThinkingText = status ?? 'Model is thinking...';
+  const thinkingText = useTypewriter(rawThinkingText);
 
   if (role === 'system') {
     return (
